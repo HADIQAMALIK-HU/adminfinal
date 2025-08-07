@@ -1,0 +1,62 @@
+/* MediaSectionHome.css */
+
+.mediahero-section {
+    position: relative; /* Essential for positioning the overlay and content */
+    width: 100%;
+    height: 230px; /* As specified by the user */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px; /* As specified by the user */
+    margin-bottom: 20px; /* As specified by the user */
+    z-index: 1; /* Ensures this section is above other potential content if needed */
+}
+
+.custom-slider-background {
+    position: absolute; /* Position relative to .mediahero-section */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Below overlay-content */
+}
+
+.custom-slider-background .slider-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the entire area */
+    filter: brightness(0.5); /* Darken the image for text readability */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 1s ease-in-out; /* Fade transition for slides */
+}
+
+.custom-slider-background .slider-image.active {
+    opacity: 1; /* Active image is visible */
+}
+
+.overlay-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10; /* Ensure it's above the slider background */
+    padding: 20px; /* Add some padding for content */
+}
+
+.main-heading {
+    color: #fff; /* White text color */
+    font-size: 2.5rem; /* Adjust font size as needed */
+    font-weight: bold;
+    margin-bottom: 0px; /* No margin below the main heading as per simplified design */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+}

@@ -1,0 +1,283 @@
+/* MediaComponents.css */
+
+/* --- Styles for the Navbar --- */
+.submit-property-container {
+    display: flex;
+    align-items: center; /* Icon aur text ko vertically center karne ke liye */
+}
+
+.submit-property-button {
+    background-color: transparent; /* Button ka background transparent rahega */
+    color: white;
+    font-weight: bold;
+    padding: 8px 0; /* Sirf left aur right padding */
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: color 0.3s ease; /* Text color transition on hover */
+}
+
+.submit-property-button:hover {
+    color: black; /* Darker text color on hover */
+}
+
+.submit-property-icon {
+    background-color: white; /* Yellow circle background */
+    color: #ffc107; /* White plus sign */
+    width: 20px; /* Circle ki width */
+    height: 20px; /* Circle ki height */
+    border-radius: 50%; /* Make it a circle */
+    display: flex;
+    justify-content: center; /* Plus sign ko center karne ke liye */
+    align-items: center; /* Plus sign ko center karne ke liye */
+    font-size: 1.5em; /* Plus sign ka size */
+    font-weight: 900;
+    margin-bottom: 2px;
+    margin-left: 2px;
+    margin-left: 8px; /* Button aur circle ke beech space */
+}
+.navbuttonadd{
+    color: white;
+    font-weight: 900;
+    text-decoration: none;
+    
+}
+/* Ensures button is same height and aligned with logo */
+.add-billboard-button-wrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.add-billboard-button {
+   margin-top: 10px;
+    color: #fff;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.add-billboard-button:hover {
+    
+    color: black;
+}
+
+/* Custom Primary Color Overrides for React Bootstrap Components used in Modal */
+
+/* Primary Button Styles */
+.btn-primary {
+    background-color: black; /* Your primary yellow color */
+    border-color: black; /* Border color matching */
+    color: white; /* Text color for the button */
+    font-weight: bold; /* Make text bold if desired */
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:not(:disabled):not(.disabled):active {
+    background-color: #e0b000; /* A slightly darker yellow for hover/active */
+    border-color: #e0b000; /* Match border color */
+    color: #333; /* Keep text color */
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.5) !important; /* Custom focus ring color */
+}
+
+.btn-primary:focus {
+    outline: none; /* Remove default outline */
+}
+
+/* Tab Navigation (Pills) Styles */
+.nav-pills .nav-link.active,
+.nav-pills .nav-link.active:hover,
+.nav-pills .nav-link.active:focus {
+    background-color: #ffc107; /* Active tab background */
+    color: #333; /* Text color for active tab */
+}
+
+.nav-pills .nav-link {
+    color: #6c757d; /* Default text color for inactive tabs */
+    transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+}
+
+.nav-pills .nav-link:hover {
+    color: #ffc107; /* Hover color for inactive tabs */
+    background-color: rgba(255, 193, 7, 0.1); /* Light yellow background on hover */
+}
+
+/* Modal Header and Title */
+.modal-header .btn-close {
+    /* Style for the close button in the modal header */
+    color: #333; /* Change close button icon color */
+    opacity: 0.7;
+}
+
+.modal-header .btn-close:hover {
+    opacity: 1;
+}
+
+.modal-title {
+    color: #333; /* Color for the modal title */
+}
+
+/* General form control focus */
+.form-control:focus {
+    border-color: #ffc107; /* Yellow border on focus for input fields */
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25); /* Yellow focus ring */
+    outline: 0;
+}
+
+/* Custom Link Button Styles */
+.btn-link {
+    color: #ffc107; /* Your primary yellow color for the link text */
+    text-decoration: none; /* Remove underline by default if you don't want it */
+}
+
+.btn-link:hover,
+.btn-link:focus,
+.btn-link:active {
+    color: #ffc107; /* Change text color to BLACK on hover/focus/active */
+    text-decoration: underline; /* Add underline back on hover/focus if desired */
+    /* Remove default blue shadow if present */
+    box-shadow: none !important;
+}
+
+/* Ensure focus outline also matches theme */
+.btn-link:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important; /* Custom yellow focus ring */
+}
+
+/* --- Styles for the Footer --- */
+.mh-footer-top {
+    font-family: Arial, sans-serif;
+}
+
+.mh-footer-top a {
+    text-decoration: none;
+}
+
+.mh-footer-top a:hover {
+    text-decoration: underline;
+}
+
+.mh-footer__logo img {
+    max-width: 100%;
+}
+
+.tagcloud a {
+    text-decoration: none;
+    border: 1px solid #ffcb08;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin: 2px;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.tagcloud a:hover {
+    background-color: #ffcb08;
+}
+
+.mh-social-icons a {
+    transition: color 0.3s ease;
+}
+
+.mh-social-icons a:hover {
+    color: #ffcb08;
+}
+
+.mh-footer-top address {
+    font-style: normal;
+    margin-bottom: 1rem;
+}
+
+.mh-footer-top i.flaticon-pin,
+.mh-footer-top i.flaticon-phone,
+.mh-footer-top i.flaticon-mail-2 {
+    margin-right: 0.5rem;
+}
+/* MediaComponents.css (or your global CSS file like App.css) */
+
+/* --- Custom Primary Color Overrides for React Bootstrap Components --- */
+
+/* Primary Button Styles (e.g., for "Update", "Apply Filters", "Add Billboard +") */
+.btn-primary {
+    background-color: #ffc107 !important; /* Your primary yellow color */
+    border-color: #ffc107 !important;     /* Border color matching */
+    color: #333 !important;               /* Text color for the button (black or dark grey) */
+    font-weight: bold;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:not(:disabled):not(.disabled):active {
+    background-color: #e0b000 !important; /* A slightly darker yellow for hover/active */
+    border-color: #e0b000 !important;     /* Match border color */
+    color: #333 !important;               /* Keep text color */
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.5) !important; /* Custom focus ring color */
+}
+
+/* Outline Primary Button Styles (e.g., for "Back to All Billboards", "Add Custom Filter") */
+.btn-outline-primary {
+    color: #ffc107 !important;      /* Yellow text */
+    border-color: #ffc107 !important; /* Yellow border */
+    background-color: transparent !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+    background-color: #ffc107 !important; /* Yellow background on hover */
+    color: #333 !important;               /* Dark text on hover */
+    border-color: #ffc107 !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.5) !important;
+}
+
+/* Background Primary Color (e.g., for Card Header) */
+.bg-primary {
+    background-color: white !important; /* Yellow background */
+}
+
+/* Text Primary Color (e.g., for Price text, Spinner) */
+.text-primary {
+    color: #ffc107 !important; /* Yellow text color */
+}
+
+/* Input Fields (Form.Control, Form.Select) focus color */
+/* This was targeted by the custom-form-control-focus class in Users.jsx */
+.form-control.custom-form-control-focus:focus,
+.form-select.custom-form-control-focus:focus {
+    border-color: #ffc107 !important; /* Yellow border on focus */
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important; /* Yellow focus ring */
+    outline: 0 !important;
+}
+
+/* General text color for dark/black */
+.text-dark {
+    color: #333 !important; /* A dark grey, close to black */
+}
+
+/* If you need pure white text on dark backgrounds */
+.text-white {
+    color: #fff !important;
+}
+
+/* Ensure card titles are dark */
+.card-title {
+    color: #333; /* Default card title color */
+}
+.submit-property-button {
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.submit-property-icon {
+  background-color: white;
+  color: #ffcb08;
+  padding: 2px 8px;
+  border-radius: 50%;
+  font-weight: bold;
+}

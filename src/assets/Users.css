@@ -1,0 +1,253 @@
+/* Users.css */
+/* General fix for body or container */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Main Layout */
+.users-page-wrapper {
+    display: flex;
+    min-height: 100vh; /* Use min-height for better flexibility */
+    flex-direction: column; /* Default to column for small screens */
+
+}
+
+.main-content-area {
+    flex-grow: 1;
+    overflow-y: auto; /* Use overflow-y for vertical scrolling */
+    padding: 1.5rem; /* Base padding for all screens */
+
+}
+
+/* Add Billboard Button */
+.add-billboard-button-wrapper {
+    padding-bottom: 20px; /* From inline style */
+}
+
+
+
+/* Billboard Card Styling */
+.billboard-card-col {
+    display: flex; /* Ensures card takes full height of column */
+}
+
+.billboard-card {
+    border: none; /* Red Border */
+    border-radius: 0; /* No border radius */
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    height: 100%; /* Ensures card takes full height from billboard-card-col */
+    width: 100%; /* Ensures card takes full width */
+    display: flex;
+   
+    flex-direction: column;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 0; /* Stack image and body */
+   
+}
+
+.card-image-wrapper {
+    height: 200px;
+    overflow: hidden;
+    background-color: #e9ecef; /* Placeholder background */
+    position: relative; /* For absolute positioning of tags/icons */
+}
+
+.card-image {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.no-image-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #6c757d; /* text-white-50 background */
+    color: rgba(255, 255, 255, 0.5); /* text-white-50 color */
+}
+
+.city-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #ffc107; /* bg-warning */
+    color: #212529; /* text-dark */
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.top-left-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.5rem;
+}
+
+.bottom-right-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.5rem;
+}
+
+.card-body-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Adjust padding for card-body */
+    flex-grow: 1; /* Allow content to grow */
+    
+}
+
+.card-title-custom {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.card-text-detail {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 0.25rem; /* Reduce line spacing */
+}
+
+.card-price {
+    font-weight: bold;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: #ffc107;
+    font-size: 1.8rem; /* Make price more prominent */
+}
+
+.card-footer-actions {
+    border-top: 1px solid #eee;
+    margin: 1rem -1rem 0; /* Adjust margin to extend border edge-to-edge within padding */
+    padding: 0.5rem 0.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem; /* Space between buttons and time ago */
+}
+
+.card-button-group {
+    display: flex;
+    gap: 0.5rem; /* Space between buttons */
+}
+
+/* Styles for the FilterSidebar */
+.filter-sidebar {
+    flex-shrink: 0; /* Prevent shrinking */
+    width: 300px; /* Fixed width for desktop */
+    background-color: #f8f9fa; /* bg-light */
+    border-right: 1px solid #dee2e6; /* Border on the right */
+    padding: 1.5rem; /* Padding inside the sidebar */
+    overflow-y: auto; /* Allow sidebar to scroll if content is long */
+}
+
+
+/* --- Responsive Adjustments for Main Layout and Sidebar --- */
+
+/* For screens larger than 767.98px (Tablets, Laptops, Desktops) */
+@media (min-width: 768px) {
+    .users-page-wrapper {
+        flex-direction: row; /* Sidebar and main content side-by-side */
+    }
+
+    .filter-sidebar {
+        /* On larger screens, make sidebar fixed and occupy full height */
+        position: sticky; /* Make it sticky */
+        top: 0; /* Stick to the top */
+        height: 100vh; /* Occupy full viewport height */
+        width: 300px; /* Ensure fixed width on larger screens */
+        border-right: 1px solid #dee2e6; /* Keep border */
+    }
+
+    .main-content-area {
+        /* Flex-grow handles it filling remaining space */
+        padding-left: 1.5rem; /* Ensure consistent padding if sidebar adds border */
+    }
+}
+
+
+/* For screens smaller than 768px (tablets, larger mobiles) */
+@media (max-width: 767.98px) {
+    .users-page-wrapper {
+        flex-direction: column; /* Stack sidebar and main content vertically */
+    }
+
+    .filter-sidebar {
+        width: 100%; /* Sidebar takes full width */
+        max-width: none;
+        position: relative; /* Remove fixed positioning */
+        height: auto; /* Allow height to adjust */
+        overflow-y: visible; /* Allow scrolling within the main content area, not sidebar */
+        border-right: none; /* Remove border */
+        border-bottom: 1px solid #dee2e6; /* Add bottom border when stacked */
+    }
+
+    .main-content-area {
+        padding: 1rem; /* Adjust padding for smaller screens */
+    }
+}
+
+/* For very small screens (mobiles - 479px and below) */
+@media (max-width: 479.98px) {
+    .main-content-area {
+        padding: 0.75rem; /* Even less padding for very small screens */
+    }
+
+    /* Adjust horizontal padding for columns in grid */
+    .billboard-card-col {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .card-title-custom {
+        font-size: 1rem; /* Slightly smaller title */
+    }
+
+    .card-text-detail, .card-price {
+        font-size: 0.85rem; /* Smaller text details */
+    }
+
+    .card-price {
+        font-size: 1.5rem; /* Smaller price font */
+    }
+
+    .card-footer-actions {
+        flex-direction: column; /* Stack time ago and buttons vertically */
+        align-items: flex-start; /* Align stacked items to the left */
+        padding: 0.75rem 0.5rem 0; /* Adjust padding */
+        margin: 0.75rem -0.75rem 0; /* Adjust margin for border */
+    }
+
+    .card-button-group {
+        width: 100%; /* Buttons take full width */
+        justify-content: stretch; /* Stretch buttons */
+        margin-top: 0.5rem; /* Space between time ago and buttons */
+    }
+
+    .card-button-group .btn {
+        flex: 1; /* Make buttons equally wide */
+    }
+
+    .city-tag {
+        font-size: 0.7rem;
+        padding: 0.15rem 0.3rem;
+    }
+
+    .top-left-icon, .bottom-right-icon {
+        padding: 0.25rem; /* Smaller padding for icons */
+    }
+}
+
+

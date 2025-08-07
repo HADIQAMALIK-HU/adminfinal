@@ -1,0 +1,144 @@
+/* UpdateUser.css */
+
+/* Main Page Layout */
+.update-user-page-wrapper {
+    display: flex;
+    min-height: 100vh; /* Full viewport height */
+    /* bg-primary color (assuming a background color for the page wrapper if needed) */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    padding: 1rem; /* Add some padding on very small screens to prevent content touching edges */
+    box-sizing: border-box; /* Include padding in element's total width and height */
+    /* Add a background color if the primary background is needed, e.g., background-color: #f8f9fa; */
+}
+
+/* Form Container Styling (The white box) */
+.update-user-form-container {
+    background-color: #ffffff; /* bg-white */
+    border-radius: 0.5rem; /* rounded */
+    padding: 1.5rem; /* p-4 */
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15); /* Optional: add a subtle shadow */
+    width: 100%; /* Default to full width on small screens */
+    max-width: 900px; /* Max width for larger screens to prevent it from getting too wide */
+}
+
+/* Form Heading */
+.update-user-form-container h2 {
+    margin-bottom: 1.5rem; /* mb-4 for h2 */
+    color: #343a40; /* A dark text color */
+    text-align: center; /* Added for consistency with previous UpdateUser.css */
+}
+
+/* Form Row (mimicking Bootstrap's .row) */
+.form-field-row {
+    display: flex; /* Make it a flex container */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    margin-right: -0.75rem; /* Negative margin to offset column padding */
+    margin-left: -0.75rem; /* Negative margin to offset column padding */
+    margin-bottom: 1rem; /* Consistent spacing between rows */
+}
+
+/* Form Column (mimicking Bootstrap's .col and .col-md-4 behavior) */
+.form-field-col {
+    position: relative; /* Needed for positioning if any child elements require it */
+    width: 100%; /* Default to full width on small screens */
+    padding-right: 0.75rem; /* Padding for columns */
+    padding-left: 0.75rem; /* Padding for columns */
+    margin-bottom: 1rem; /* Add margin-bottom to columns for stacking on small screens */
+    box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+/* Media query for medium and larger screens (md) */
+@media (min-width: 768px) {
+    .form-field-col {
+        flex: 0 0 auto; /* Allow content to dictate size initially */
+        max-width: 33.333333%; /* For col-md-4 */
+        margin-bottom: 0; /* Remove margin-bottom on larger screens */
+    }
+    /* Specific adjustment for the Availability Date / Owner of Billboard row which uses col-md-6 */
+    .form-field-row:nth-child(5) .form-field-col { /* Targeting the 5th form-field-row for the 6-column layout */
+        max-width: 50%; /* For col-md-6 */
+    }
+}
+
+
+/* Specific styling for the 'Soft' section inputs (Width/Height) */
+.soft-input-group {
+    display: flex;
+    gap: 0.5rem; /* gap-2 */
+}
+
+/* Ensure inputs within soft-input-group take equal space */
+.soft-input-group input {
+    flex: 1;
+}
+.checkbox-field-col {
+    display: flex;
+    align-items: center; /* Vertically align checkbox and label with other inputs */
+    /* Adjust padding-top to align the checkbox vertically with other input fields */
+    padding-top: 1rem; /* Adjusted for better visual alignment */
+}
+
+.checkbox-group .form-check-label {
+    margin-left: 0.5rem; /* ms-2 */
+}
+
+/* Image Preview */
+.current-image-preview {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.current-image-preview img {
+    max-width: 150px;
+    height: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+}
+
+
+/* Submit Button */
+.update-button { /* Using 'update-button' as per your JSX */
+    width: 100%; /* w-100 */
+    padding: 0.75rem 1.25rem; /* Adjust padding for better button appearance */
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: #ffc107; /* Match style from JSX */
+    border: none; /* Match style from JSX */
+}
+
+
+/* --- Responsive Adjustments --- */
+
+/* For very small screens (mobiles - 479px and below) */
+@media (max-width: 479.98px) {
+    .update-user-page-wrapper {
+        padding: 0.5rem; /* Even less padding on very small screens */
+    }
+
+    .update-user-form-container {
+        padding: 0.75rem; /* Minimal padding */
+    }
+
+    .update-user-form-container h2 {
+        font-size: 1.5rem; /* Smaller heading */
+        margin-bottom: 1rem;
+    }
+
+    .form-label {
+        font-size: 0.9rem; /* Smaller label font */
+    }
+
+    .form-control {
+        font-size: 0.9rem; /* Smaller input font */
+    }
+
+    .update-button {
+        font-size: 1rem;
+        padding: 0.6rem 1rem;
+    }
+
+    .checkbox-field-col {
+        padding-top: 0.5rem; /* Adjust padding for stacked layout on very small screens */
+    }
+}

@@ -1,0 +1,598 @@
+/* Base Styles for Footer */
+
+.site-footer-custom {
+  background-color: #f9f9f9;
+  padding: 60px 20px 0;
+  position: relative;
+  margin-top: 100px;
+}
+
+.footer-custom-inner {
+  position: relative;
+  padding-bottom: 30px; /* Adjusted in previous step */
+  margin-bottom: 0;
+  padding-top: 80px;
+}
+
+/* CTA Box (Gray Box) - positioned above the main footer content */
+.gray-box {
+  position: absolute;
+  top: 0;
+  margin-top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1200px;
+  z-index: 10;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.cta-wrapper {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+  border-radius: 8px 8px 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-box {
+  padding: 20px 15px;
+}
+
+.cta-headline {
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-bottom: 25px;
+  line-height: 1.2;
+}
+
+.cta-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2px;
+}
+.cta-actions .cta-button {
+  padding: 14px 30px;
+  /* White border as in Image 1 */
+  border: none;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  background-color: transparent; /* Transparent background */
+  color: white; /* White text color */
+  /* Animation properties */
+  opacity: 0; /* Initially hidden */
+  transform: translateX(20px); /* Start slightly to the right */
+  animation: slideInFromRight 0.7s ease-out forwards; /* Apply animation */
+}
+/* Delay for the second button */
+.cta-actions .cta-button:nth-child(2) {
+  animation-delay: 0.2s; /* Delay for the second button */
+}
+/* Hover effect for buttons inside cta-actions (Image 2 style) */
+.cta-actions .cta-button:hover {
+  /* Yellow background on hover */
+  color: white; /* Dark text on hover */
+  transform: translateY(-2px);
+  
+}
+
+/* Animation Keyframes */
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --- Existing CTA Button Styles (if they are different) ---
+   If you have other cta-button styles for different sections,
+   make sure they are not affected or adjust them specifically.
+   For example, if you want a separate primary button style:
+*/
+
+.cta-button.primary {
+  background-color:#ffc107;
+  color: black;
+  border: none;  
+}
+
+.cta-button.primary:hover {
+  background-color:  black;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button.secondary {
+  background-color: transparent;
+  color: white;
+  
+}
+.cta-button .arrow {
+  margin-left: 8px;
+  font-size: 1.1em;
+}
+
+.cta-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #ffc107;
+  height: 8px;
+  width: 100%;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Main Footer Content */
+.footer-custom-inner > .container {
+  padding-top: 100px;
+  padding-bottom: 0; /* Handled by .footer-custom-inner padding-bottom */
+  margin-bottom: 0;
+}
+
+.footer-heading {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.footer-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.footer-btn {
+  padding: 12px 25px;
+  border-radius: 50px;
+  font-size: 0.9em;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.footer-btn.left {
+  background-color: #ffc107;
+  color: #333;
+  border: 1px solid #ffc107;
+}
+
+.footer-btn.left:hover {
+  background-color: #e0a800;
+  border-color: #e0a800;
+}
+
+.footer-btn.right {
+  background-color: transparent;
+  color: #333;
+  border: 1px solid #333;
+}
+
+.footer-btn.right:hover {
+  background-color: #333;
+  color: white;
+}
+
+.footer-btn i {
+  font-size: 1em;
+}
+
+.footer-logo {
+  max-width: 180px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.footer-desc {
+  text-align: justify;
+  font-size: 1em;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.footer-subheading {
+  font-size: 1.2em;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #000;
+  text-align: left;
+}
+.services-btn {
+  background-color: #ffcc00;
+  color: #222;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.services-btn:hover {
+  background-color: black;
+  color: white;
+  transform: translateY(-2px);
+}
+.footer-links,
+.footer-contact {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.95em;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.footer-links li,
+.footer-contact li {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ffc107;
+}
+
+.footer-contact i {
+  margin-right: 10px;
+  color: #ffc107;
+  font-size: 1.1em;
+}
+
+.social-icons {
+  display: flex;
+  flex-wrap: wrap; /* This is the key property */
+  justify-content: flex-start; /* Or space-between, space-around, etc. */
+  gap: 0px; /* Spacing between icons */
+  font-size: 30px; /* This sets the base size for the icons */
+}
+
+.social-icons a {
+  flex: 0 0 calc((100% / 3) - 10px); /* 10px is an example for (2 * 15px) / 3 = 10px */
+  max-width: calc(33.33% - 10px); /* Adjust 10px based on gap (gap / number of items) */
+  box-sizing: border-box; /* Include padding/border in width calculation */
+  font-size: 1.5em; /* This makes the icon itself 1.5 times the 40px base size */
+  transition: color 0.3s, transform 0.2s;
+  text-align: center; /* Center the icon within its calculated space */
+}
+/* Facebook */
+.social-icons .fa-facebook {
+  color: #1877f2; /* Facebook Blue */
+}
+
+/* LinkedIn */
+.social-icons .fa-linkedin {
+  color: #0a66c2; /* LinkedIn Blue */
+}
+
+/* Instagram */
+/* Instagram's gradient makes it tricky with a single color. You can use a solid color or an overlay effect. */
+.social-icons .fa-instagram {
+  color: #c13584; /* Instagram Purple/Pink (common solid representation) */
+}
+
+/* WhatsApp */
+.social-icons .fa-whatsapp {
+  color: #25d366; /* WhatsApp Green */
+}
+
+/* Twitter */
+.social-icons .fa-twitter {
+  color: #1da1f2; /* Twitter Blue */
+}
+
+/* YouTube */
+.social-icons .fa-youtube {
+  color: #ff0000; /* YouTube Red */
+}
+.social-ficons a:hover {
+  opacity: 0.8; /* Slight fade on hover */
+}
+
+.footer-btn.more-info {
+  background-color: #ffc107;
+  border: none;
+  color: #333;
+  padding: 12px 30px;
+  font-size: 1em;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.footer-btn.more-info:hover {
+  background-color: #e0a800;
+}
+
+.footer-columns {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.footer-columns p:last-child,
+.footer-columns ul:last-child {
+  margin-bottom: 0;
+}
+
+.footer-bottom {
+  width: 100%;
+  background-color: #222;
+  padding: 10px;
+  margin-left: 0.5px;
+  text-align: center;
+  font-size: 0.85em;
+  color: white;
+  margin-top: 0;
+  margin-bottom: 0;
+  box-sizing: border-box;
+}
+
+.footer-bottom p {
+  margin-bottom: 0;
+}
+
+
+/* Media Queries for Responsiveness */
+
+/* Mobile devices (max-width: 767.98px) */
+@media (max-width: 767.98px) {
+  .site-footer-custom {
+    padding: 40px 15px 0;
+    margin-top: 80px;
+  }
+
+  .gray-box {
+    top: 0;
+    margin-top: -40px;
+    width: 95%;
+  }
+
+  .cta-headline { 
+    font-size: 1.8em;
+  }
+
+  .cta-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cta-actions .cta-button {
+      animation: slideInFromRight 0.7s ease-out forwards; /* Apply animation */
+      animation-delay: 0s; /* Reset delay for first button */
+  }
+
+  .cta-actions .cta-button:nth-child(2) {
+      animation-delay: 0.2s; /* Delay for the second button */
+  }
+
+  .cta-button {
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+  }
+
+  .footer-custom-inner {
+      padding-top: 60px;
+      padding-bottom: 20px;
+  }
+
+  .footer-custom-inner > .container {
+      padding-top: 80px;
+  }
+
+  .footer-heading {
+    font-size: 22px;
+    margin-top: 20px;
+  }
+
+  .footer-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-btn {
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+  }
+
+  .footer-columns > .col-md-3 {
+    margin-bottom: 30px;
+  }
+
+  .footer-logo {
+    margin-left: 0;
+    margin-right: auto;
+    margin-bottom: 15px;
+  }
+   .footer-desc{
+    text-align: justify;
+   }
+  .footer-heading,
+  .footer-subheading,
+  .footer-links,
+  .footer-contact,
+  .social-icons {
+    text-align: left;
+  }
+
+  .social-icons {
+    justify-content: flex-start;
+  }
+
+  .footer-contact li {
+    padding-left: 0;
+  }
+}
+
+/* Tablet devices (min-width: 768px and max-width: 991.98px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .site-footer-custom {
+    padding: 50px 20px 0;
+    margin-top: 90px;
+  }
+
+  .gray-box {
+    top: 0;
+    margin-top: -60px;
+    width: 90%;
+  }
+
+  .cta-headline {
+    font-size: 2.2em;
+  }
+
+  .cta-actions {
+    gap: 15px;
+  }
+
+  .cta-actions .cta-button {
+      animation: slideInFromRight 0.7s ease-out forwards; /* Apply animation */
+      animation-delay: 0s; /* Reset delay for first button */
+  }
+
+  .cta-actions .cta-button:nth-child(2) {
+      animation-delay: 0.2s; /* Delay for the second button */
+  }
+
+  .footer-custom-inner {
+      padding-top: 80px;
+      padding-bottom: 25px;
+  }
+
+  .footer-custom-inner > .container {
+      padding-top: 100px;
+  }
+
+  .footer-heading {
+    font-size: 26px;
+    margin-top: 30px;
+  }
+
+  .footer-buttons {
+    gap: 15px;
+  }
+
+  .footer-columns > .col-md-3 {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .footer-logo {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+   .footer-desc{
+    text-align: justify;
+   }
+  .footer-subheading,
+  .footer-links,
+  .footer-contact {
+    text-align: left;
+  }
+
+  .social-icons {
+    justify-content: flex-start;
+  }
+}
+
+/* Desktop devices (min-width: 992px) */
+@media (min-width: 992px) {
+  .site-footer-custom {
+    padding: 60px 20px 0;
+    margin-top: 100px;
+  }
+
+  .gray-box {
+    top: 0;
+    margin-top: -80px;
+    width: 90%;
+  }
+
+  .cta-headline {
+    font-size: 2.5em;
+  }
+
+  .cta-actions {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .cta-actions .cta-button {
+      animation: slideInFromRight 0.7s ease-out forwards; /* Apply animation */
+      animation-delay: 0s; /* Reset delay for first button */
+  }
+
+  .cta-actions .cta-button:nth-child(2) {
+      animation-delay: 0.2s; /* Delay for the second button */
+  }
+
+  .footer-custom-inner {
+      padding-top: 100px;
+      padding-bottom: 30px;
+  }
+
+  .footer-custom-inner > .container {
+      padding-top: 120px;
+  }
+
+  .footer-heading {
+    font-size: 28px;
+    margin-top: 40px;
+  }
+
+  .footer-buttons {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .footer-columns > .col-md-3 {
+    margin-bottom: 0;
+    text-align: left;
+  }
+
+  .footer-logo {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+ .footer-desc{
+    text-align: justify;
+   }
+  .footer-subheading,
+  .footer-links,
+  .footer-contact {
+    text-align: left;
+  }
+  .companysec{
+  padding-left: 80px;
+}
+  .social-icons {
+    justify-content: flex-start;
+  }
+}

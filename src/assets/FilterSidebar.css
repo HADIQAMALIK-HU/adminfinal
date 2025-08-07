@@ -1,0 +1,329 @@
+/* General input field styling */
+.custom-form-control {
+    text-align: center; /* Center placeholder and input text */
+    font-family: 'Arial', sans-serif; /* Example font family, adjust as needed */
+    color: #333; /* Default text color */
+    border: 1px solid #ced4da; /* Default border color */
+    border-radius: 0; /* Changed from 0.25rem to 0 to remove border-radius */
+    padding: 10px; /* Standard padding */
+    transition: all 0.2s ease-in-out; /* Smooth transition for focus effects */
+}
+
+/* Placeholder styling */
+.custom-form-control::placeholder {
+    color: #888; /* Placeholder color */
+    font-family: 'Arial', sans-serif; /* Placeholder font family */
+    opacity: 1; 
+    font-style: italic;/* Ensures placeholder is not transparent */
+}
+
+/* Focus state for input fields */
+.custom-form-control:focus {
+  /* Light pink background on focus */
+    border-color: #ffc107; /* Yellow border on focus (Bootstrap's warning yellow) */
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25); /* Light yellow shadow */
+    outline: none; /* Remove default outline */
+    color: #ffc107;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* Styling for React-Select components */
+/* Control (input) when not focused */
+.react-select-container .react-select__control {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    border: 1px solid #ced4da;
+    border-radius: 0; /* Changed from 0.25rem to 0 to remove border-radius */
+    min-height: 30px; /* From your existing styles */
+    font-size: 0.85rem; /* From your existing styles */
+    transition: all 0.2s ease-in-out;
+}
+
+/* Control (input) when focused */
+.react-select-container .react-select__control--is-focused {
+    background-color: #ffebee; /* Light pink background on focus */
+    border-color: #ffc107 !important; /* Yellow border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25); /* Light yellow shadow */
+    outline: none;
+    
+}
+
+/* Placeholder in React-Select */
+.react-select-container .react-select__placeholder {
+    text-align: center;
+    width: 100%; /* Ensure placeholder spans full width for centering */
+    color: #888 !important;
+    font-family: 'Arial', sans-serif;
+    font-style: italic;
+    padding: 10px;
+}
+
+/* Single value in React-Select (when an option is selected) */
+.react-select-container .react-select__single-value {
+    text-align: center;
+    width: 100%; /* Ensure selected value spans full width for centering */
+    color: #333 !important;
+    left: 0;
+    transform: translateX(0); /* Reset transform */
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0; /* Remove default left padding */
+    padding-right: 0; /* Remove default right padding */
+    
+}
+
+/* Multi-value selected options in React-Select */
+.react-select-container .react-select__multi-value {
+    background-color: #f0f0f0; /* Light background for selected tags */
+     /* Keep some border-radius for multi-value tags if desired, or set to 0 */
+    margin: 2px;
+}
+
+.react-select-container .react-select__multi-value__label {
+    font-size: 0.85rem;
+    color: #333;
+}
+
+.react-select-container .react-select__multi-value__remove {
+    color: #999;
+}
+
+.react-select-container .react-select__multi-value__remove:hover {
+    background-color: #e0e0e0;
+    color: #666;
+}
+
+
+/* Labels for form groups */
+.filter-label {
+    display: block; /* Ensures label takes full width */
+    text-align: center; /* Center the label text */
+    margin-bottom: 0.75rem; /* Increased space from 0.25rem to 0.75rem */
+    font-size: 1rem; /* Adjust font size */
+    font-weight: 800; /* Make it a bit bolder */
+    color: #333;
+    padding: 10px;
+}
+
+/* Small labels (if you want them centered too) */
+.filter-label.small {
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+/* Radio button labels */
+.form-check-label {
+    text-align: left !important; /* Keep radio labels left-aligned */
+}
+
+/* Headings for ranges */
+h6.filter-heading {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: #333;
+}
+/* ... (previous CSS rules) ... */
+/* ... (previous CSS rules) ... */
+
+/* Radio button labels */
+.form-check-label {
+    text-align: left !important; /* Keep radio labels left-aligned */
+    margin-bottom: 0.25rem; /* Add some space below each radio button */
+    font-style: normal; /* Radio button labels should generally not be italic */
+}
+
+/* Custom styling for Radio Buttons */
+.form-check-input:checked {
+    background-color: #ffc107; /* Bootstrap's warning yellow for checked background */
+    border-color: #ffc107; /* Match border color to background */
+}
+
+.form-check-input:checked[type="radio"] {
+    /* For radio buttons, the inner dot is usually controlled by background-image,
+       but sometimes the background-color itself is enough.
+       If the inner dot is still blue, you might need to override the background-image. */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
+    /* The SVG above creates a white dot for the radio button.
+       If you want a different color dot, change the 'fill' attribute. */
+}
+
+.form-check-input:focus {
+    border-color: #ffc107; /* Yellow border on focus */
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25); /* Light yellow shadow on focus */
+    outline: 0; /* Remove default outline */
+}
+
+/* Specific styling for the container of radio buttons if needed for layout */
+.radio-button-group-vertical {
+    display: flex;
+    flex-direction: column; /* This ensures they stack vertically */
+    gap: 0.5rem; /* Adjust space between radio buttons if desired */
+    align-items: flex-start; /* Center the radio buttons themselves within their container */
+}
+
+/* ... (rest of your CSS rules) ... */
+/* ... (rest of your CSS rules) ... */
+/* ... (previous CSS rules) ... */
+
+/* Custom Button Styling */
+
+/* Primary Button (Solid Yellow) */
+.btn-primary {
+    background-color: #ffc107; /* Your desired yellow shade */
+    border-color: #ffc107; /* Match border to background */
+    color: #333; /* Darker text for better contrast on yellow */
+    font-weight: 600; /* Make text a bit bolder */
+}
+
+.btn-primary:hover {
+    background-color: #e0a800; /* Slightly darker yellow on hover */
+    border-color: #e0a800; /* Match hover border */
+    color: #333; /* Keep text color for contrast */
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+    background-color: #e0a800;
+    border-color: #e0a800;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5); /* Yellow shadow on focus */
+    color: #333;
+}
+
+.btn-primary:active,
+.btn-primary.active {
+    background-color: #c79100 !important; /* Even darker yellow on active/click */
+    border-color: #c79100 !important;
+    color: #333;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5);
+}
+
+.btn-primary:disabled,
+.btn-primary.disabled {
+    background-color: #ffc107; /* Still yellow, but maybe lower opacity or lighter shade */
+    border-color: #ffc107;
+    opacity: 0.65; /* Make disabled buttons slightly transparent */
+}
+
+
+/* Outline Primary Button (Yellow Outline) */
+.btn-outline-primary {
+    color: #ffc107; /* Yellow text */
+    border-color: #ffc107; /* Yellow border */
+    font-weight: 600;
+}
+
+.btn-outline-primary:hover {
+    background-color: #ffc107; /* Solid yellow background on hover */
+    color: #333; /* Dark text on solid yellow background */
+    border-color: #ffc107;
+}
+
+.btn-outline-primary:focus,
+.btn-outline-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5); /* Yellow shadow on focus */
+    background-color: #ffc107;
+    color: #333;
+    border-color: #ffc107;
+}
+
+.btn-outline-primary:active,
+.btn-outline-primary.active {
+    background-color: #e0a800 !important; /* Slightly darker yellow on active/click */
+    color: #333;
+    border-color: #e0a800 !important;
+}
+
+
+/* Outline Secondary Button (For Reset - e.g., Gray/Light shade or match your theme) */
+/* Since you only specified yellow for blue, you might want a neutral color for "Reset".
+   If you want "Reset" also in a yellow outline, change this to mimic btn-outline-primary.
+   Otherwise, a good neutral color is advisable. I'll make it a very light grey/white outline. */
+.btn-outline-secondary {
+    color: #6c757d; /* Standard Bootstrap secondary color for text */
+    border-color: #6c757d; /* Standard Bootstrap secondary color for border */
+    font-weight: 600;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff; /* White text on hover */
+    border-color: #6c757d;
+}
+
+.btn-outline-secondary:focus,
+.btn-outline-secondary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
+    background-color: #6c757d;
+    color: #fff;
+    border-color: #6c757d;
+}
+
+.btn-outline-secondary:active,
+.btn-outline-secondary.active {
+    background-color: #5a6268 !important;
+    color: #fff;
+    border-color: #5a6268 !important;
+}
+
+
+.btn-outline-secondary {
+    color: #ffc107;
+    border-color: #ffc107;
+    font-weight: 600;
+}
+.btn-outline-secondary:hover {
+    background-color: #ffc107;
+    color: #333;
+    border-color: #ffc107;
+}
+.btn-outline-secondary:focus,
+.btn-outline-secondary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5);
+    background-color: #ffc107;
+    color: #333;
+    border-color: #ffc107;
+}
+.btn-outline-secondary:active,
+.btn-outline-secondary.active {
+    background-color: #e0a800 !important;
+    color: #333;
+    border-color: #e0a800 !important;
+}
+
+/* Force 0 border-radius globally on form elements */
+input,
+select,
+textarea,
+button,
+.form-control,
+.react-select__control,
+.react-select__multi-value {
+    border-radius: 0 !important;
+}
+/* Hide scrollbar for Webkit (Chrome, Safari) */
+.scroll-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.scroll-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none; /* IE 10+ */
+}
+/* Headings for ranges */
+h6.filter-heading {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: #333;
+    font-weight: 800; /* Add this line to make it bold */
+}
+
+/* ... (rest of your CSS rules) ... */
