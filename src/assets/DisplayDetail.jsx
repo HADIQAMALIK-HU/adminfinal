@@ -8,6 +8,10 @@ import './DisplayDetail.css'
 
 
 function DisplayDetail() {
+    const [compareList, setCompareList] = useState([]);
+const [showCompareBar, setShowCompareBar] = useState(false);
+const [isHovered, setIsHovered] = useState(false);
+
     const { id } = useParams();
     const [billboard, setBillboard] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -20,7 +24,7 @@ function DisplayDetail() {
     const [replyMessage, setReplyMessage] = useState('');
 
     const [messageBoxMessage, setMessageBoxMessage] = useState('');
-
+      
     const showMessageBox = (message) => {
         setMessageBoxMessage(message);
     };
@@ -111,7 +115,25 @@ function DisplayDetail() {
             </Container>
         );
     }
-    
+    // Toggle billboard in Compare list
+const toggleCompare = (billboard) => {
+    const alreadyInList = compareList.find(item => item._id === billboard._id);
+    if (alreadyInList) {
+        const newList = compareList.filter(item => item._id !== billboard._id);
+        setCompareList(newList);
+        if (newList.length === 0) setShowCompareBar(false);
+    } else {
+        setCompareList([...compareList, billboard]);
+        setShowCompareBar(true);
+    }
+};
+
+// Clear Compare list
+const clearCompare = () => {
+    setCompareList([]);
+    setShowCompareBar(false);
+};
+
     const calculateSqftForDisplay = (size, customLength, customWidth, storedSqft) => {
         if (storedSqft !== null && storedSqft !== undefined && storedSqft !== '') {
             const numSqft = parseFloat(storedSqft);
@@ -423,14 +445,51 @@ function DisplayDetail() {
                             </div>
                         </div>
                         <div className="content-section mb-4">
-                            <div className="p-3">
-                                <p className="mb-2 add-favorite">
-                                    <FaHeart className="me-2 text-danger" /> Add to favorite
-                                </p>
-                                <p className="mb-0 added-to-compare">
-                                    <FaExchangeAlt className="me-2 text-success" /> Add to compare
-                                </p>
-                            </div>
+                           <div className="p-3 action-container">
+    <p
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+            cursor: "pointer",
+            fontWeight: "bold",
+            color: isHovered ? "#ffc107" : "black",
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "10px",
+        }}
+        className="action-item"
+    >
+        <FaHeart className="me-2 text-danger" /> Add to Favorite
+    </p>
+
+    <button
+        onClick={() => toggleCompare(billboard)}
+        style={{
+            background: 'none',
+            border: 'none',
+            color: compareList.find(item => item._id === billboard._id) ? 'green' : 'black',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px',
+            padding: 0,
+            margin: 0
+        }}
+        className="action-item"
+    >
+        {compareList.find(item => item._id === billboard._id) ? (
+            <>
+                <FaExchangeAlt /> Added to Compare
+            </>
+        ) : (
+            <>
+                <FaExchangeAlt /> Add to Compare
+            </>
+        )}
+    </button>
+</div>
+
                         </div>
                         <div className="content-section">
                             <div className="card-header-custom h5">Reply to the listing</div>
@@ -490,6 +549,65 @@ function DisplayDetail() {
                     </div>
                 </div>
             )}
+          {compareList.length > 0 && (
+    <div style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        borderTop: '8px solid #ffc107',
+        backgroundColor: 'white',
+        padding: '10px 20px',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        zIndex: 9999,
+        gap: '10px',
+        boxShadow: '0 -2px 5px rgba(0,0,0,0.2)',
+        color: 'black'
+    }}>
+        <div style={{ marginLeft: '50px' }}>
+            <strong>Compare ({compareList.length})</strong>
+        </div>
+
+        {/* SHOW button */}
+        <button
+            onClick={() => setShowCompareBar(true)}
+            disabled={compareList.length === 0}
+            style={{
+                background: 'transparent',
+                border: 'none',
+                padding: '5px 10px',
+                borderRadius: '4px',
+                color: 'black',
+                cursor: compareList.length === 0 ? 'not-allowed' : 'pointer',
+            }}
+            onMouseOver={e => { if(compareList.length !== 0) e.target.style.backgroundColor = '#ffc107'; }}
+            onMouseOut={e => e.target.style.backgroundColor = 'transparent'}
+        >
+            Show
+        </button>
+
+        {/* CLEAR button */}
+        <button
+            onClick={clearCompare}
+            style={{
+                background: 'transparent',
+                border: 'none',
+                padding: '5px 10px',
+                borderRadius: '4px',
+                color: 'black',
+                cursor: 'pointer',
+            }}
+            onMouseOver={e => e.target.style.backgroundColor = '#ffc107'}
+            onMouseOut={e => e.target.style.backgroundColor = 'transparent'}
+        >
+            Clear
+        </button>
+    </div>
+)}
+
+
         </>
     );
 }

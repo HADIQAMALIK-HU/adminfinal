@@ -32,12 +32,18 @@ const calculateSqftForDisplay = (size, customLength, customWidth, storedSqft) =>
 
 function Users() {
     const [users, setUsers] = useState([]);
+    const [compareList, setCompareList] = useState([]);
+const [showCompareOnly, setShowCompareOnly] = useState(false);
+// Show either all users or only the compare list
+const displayedUsers = showCompareOnly ? compareList : users;
+
     const [searchParams] = useSearchParams(); // 👈 'useSearchParams' initialized here
     const [availableCities, setAvailableCities] = useState([]);
     const [customField, setCustomField] = useState('');
     const [customValue, setCustomValue] = useState('');
     const [viewMode, setViewMode] = useState('grid');
     const [filters, setFilters] = useState({
+
         displayId: '',
         keyword: '',
         province: [],
@@ -64,6 +70,7 @@ function Users() {
         maxReach: '',
         customFilters: [],
     });
+    
     const [sortOption, setSortOption] = useState('');
     const [currentSortLabel, setCurrentSortLabel] = useState('Sort By');
     const [loading, setLoading] = useState(false);
@@ -350,6 +357,15 @@ function Users() {
         }
         setBillboardToUpdate(null);
     };
+const toggleCompare = (user) => {  // yahan 'billboard' ki jagah 'user'
+    const exists = compareList.find(item => item._id === user._id);
+    if (exists) {
+        setCompareList(compareList.filter(item => item._id !== user._id));
+    } else if (compareList.length < 3) { // max 3 items
+        setCompareList([...compareList, user]);
+    }
+};
+
 
     const triggerExcelDownloadModal = () => {
         setDownloadFileType('excel');
@@ -497,7 +513,7 @@ function Users() {
                 {!loading && users.length > 0 && (
                     <>
                         <div className={viewMode === "grid" ? "row g-4" : "d-flex flex-column gap-3"}>
-                            {users.map(user => (
+                           {displayedUsers.map(user => (
                                 <div
                                     key={user._id}
                                     className={viewMode === "grid" ? "col-12 col-sm-6 col-md-6 col-lg-6 billboard-card-col" : "w-100"}
@@ -601,6 +617,21 @@ function Users() {
                                             <div className="d-flex justify-content-between align-items-center mt-3">
                                                 <small className="text-muted">{timeAgo(user.createdAt)}</small>
                                                 <div className="d-flex gap-2">
+  <Button
+    onClick={() => toggleCompare(user)}
+    style={{
+        backgroundColor: compareList.find(item => item._id === user._id) ? "#ffc107" : "transparent",
+        border: compareList.find(item => item._id === user._id) ? "1px solid #ffc107" : "none",
+        color: compareList.find(item => item._id === user._id) ? "white" : "black",
+        padding: "2px 15px",
+        cursor: "pointer",
+        transition: "all 0.3s ease",
+    }}
+>
+    {compareList.find(item => item._id === user._id) ? "Added" : "Compare"}
+</Button>
+
+
                                                     <Button onClick={() => handleUpdate(user._id)} variant="primary" size="sm" className="d-flex align-items-center">
                                                         Update
                                                     </Button>
@@ -655,6 +686,62 @@ function Users() {
                 handleDownload={handleActualDownload}
                 fileType={downloadFileType}
             />
+            {compareList.length > 0 && (
+    <div style={{
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        borderTop: "8px solid #ffc107",
+        backgroundColor: "white",
+        padding: "10px 20px",
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        zIndex: 9999,
+        gap: "10px",
+        boxShadow: "0 -2px 5px rgba(0,0,0,0.2)",
+        color: "black",
+    }}>
+        <div style={{ marginLeft: "50px" }}>
+            <strong>Compare ({compareList.length})</strong>
+        </div>
+
+        <button
+            onClick={() => setShowCompareOnly(true)}
+            disabled={compareList.length === 0}
+            style={{
+                background: "transparent",
+                border: "none",
+                padding: "5px 10px",
+                borderRadius: "4px",
+                color: "black",
+                cursor: compareList.length === 0 ? "not-allowed" : "pointer",
+            }}
+            onMouseOver={(e) => { if(compareList.length !== 0) e.target.style.backgroundColor = "#ffc107"; }}
+            onMouseOut={(e) => { e.target.style.backgroundColor = "transparent"; }}
+        >
+            Show
+        </button>
+
+        <button
+            onClick={() => { setCompareList([]); setShowCompareOnly(false); }}
+            style={{
+                background: "transparent",
+                border: "none",
+                padding: "5px 10px",
+                borderRadius: "4px",
+                color: "black",
+                cursor: "pointer",
+            }}
+            onMouseOver={(e) => e.target.style.backgroundColor = "#ffc107"}
+            onMouseOut={(e) => e.target.style.backgroundColor = "transparent"}
+        >
+            Clear
+        </button>
+    </div>
+)}
+
         </div>
     );
 }

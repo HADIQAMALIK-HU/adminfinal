@@ -76,10 +76,10 @@ const MediaFooter = () => {
                 <ul className="footer-contact">
                   <li>
                     <i className="fas fa-map-marker-alt" ></i>
-                    12 P Siddiq Trade Center,Main
+                    557 Nasheman Iqbal,
                   </li>
                   <li style={{marginLeft:'25px'}}>
-                      Boulevard Gulberg Lahore, Pakistan
+                    Khayaban-e-Jinnah,Lahore.
                   </li>
                   <li>
                     <i className="fas fa-phone-alt"></i>
