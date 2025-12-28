@@ -3,7 +3,37 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import Select from 'react-select';
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import './CreateUser.css'; 
+// Leaflet Icon Fix
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
+// 1. Click Handler Component
+function LocationPickerMarker({ position, setPosition }) {
+    useMapEvents({
+        click(e) {
+            setPosition([e.latlng.lat, e.latlng.lng]);
+        },
+    });
+    return position ? <Marker position={position} /> : null;
+}
+
+// 2. City change hone par Map move karne wala component
+function MapViewUpdater({ center }) {
+    const map = useMap();
+    useEffect(() => {
+        if (center) {
+            map.setView(center, 12); // City change hone par map wahan move ho jayega
+        }
+    }, [center, map]);
+    return null;
+}
 function CreateUser() {
     const [formData, setFormData] = useState({
         title: '',
@@ -28,6 +58,8 @@ function CreateUser() {
         displayId: '',
         province: '',
         location: '',
+        latitude: '',
+        longitude: '',
         ownerName: '',
     });
     const navigate = useNavigate();
@@ -86,7 +118,19 @@ function CreateUser() {
     ];
 
     const [availableCities, setAvailableCities] = useState([]);
-
+    // Is line ko function CreateUser ke andar add karein
+const currentCityCoords = cityCoords[formData.city] || [31.5204, 74.3587];
+   const cityCoords = {
+    'Lahore': [31.5204, 74.3587],
+    'Karachi': [24.8607, 67.0011],
+    'Islamabad': [33.6844, 73.0479],
+    'Rawalpindi': [33.5651, 73.0169],
+    'Faisalabad': [31.4504, 73.1350],
+    'Multan': [30.1575, 71.5249],
+    'Peshawar': [34.0151, 71.5249],
+    'Quetta': [30.1798, 66.9750],
+    // Baaki cities ke coords bhi isi tarah add kar sakte hain
+};
      // --- START: Size and SQFT Calculation Logic ---
     // Effect to calculate total SQFT whenever selected sizes or custom dimensions change
     useEffect(() => {
@@ -559,7 +603,36 @@ function CreateUser() {
                             />
                         </div>
                     </div>
-
+                   <div className="row mt-4 mb-4">
+                        <div className="col-12">
+                            <label className="form-label text-primary">
+                                <strong>Pin Location on Map ({formData.city || 'Default: Lahore'}):</strong>
+                            </label>
+                            <div style={{ height: '350px', width: '100%', border: '2px solid #ddd', borderRadius: '10px', overflow: 'hidden' }}>
+                                <MapContainer 
+                                    center={currentCityCoords} 
+                                    zoom={12} 
+                                    style={{ height: '100%', width: '100%' }}
+                                >
+                                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                                    
+                                    {/* Map update logic */}
+                                    <MapViewUpdater center={currentCityCoords} />
+                                    
+                                    <LocationPickerMarker 
+                                        position={formData.latitude && formData.longitude ? [formData.latitude, formData.longitude] : null}
+                                        setPosition={(pos) => {
+                                            setFormData(prev => ({ ...prev, latitude: pos[0], longitude: pos[1] }));
+                                        }}
+                                    />
+                                </MapContainer>
+                            </div>
+                            <div className="d-flex gap-3 mt-2">
+                                <small className="text-muted">Latitude: <strong>{formData.latitude}</strong></small>
+                                <small className="text-muted">Longitude: <strong>{formData.longitude}</strong></small>
+                            </div>
+                        </div>
+                    </div>
                     {/* Image Upload */}
                     <div className="mb-4 form-section-row">
                         <label className="form-label">Upload Image</label>

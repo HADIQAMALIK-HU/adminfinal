@@ -8,9 +8,23 @@ import './DisplayDetail.css'
 
 
 function DisplayDetail() {
-    const [compareList, setCompareList] = useState([]);
-const [showCompareBar, setShowCompareBar] = useState(false);
+  const [compareList, setCompareList] = useState(() => {
+    return JSON.parse(localStorage.getItem("compareList")) || [];
+});
+const [campaignList, setCampaignList] = useState(() => {
+    return JSON.parse(localStorage.getItem("campaignList")) || [];
+});
+
+const [showCompareBar, setShowCompareBar] = useState(() => {
+    const savedList = JSON.parse(localStorage.getItem("compareList")) || [];
+    const savedShow = JSON.parse(localStorage.getItem("showCompareBar"));
+    return savedShow !== null ? savedShow : savedList.length > 0;
+});
+
+
 const [isHovered, setIsHovered] = useState(false);
+const [hoverCompare, setHoverCompare] = useState(false);
+const [hoverCampaign, setHoverCampaign] = useState(false);
 
     const { id } = useParams();
     const [billboard, setBillboard] = useState(null);
@@ -28,6 +42,18 @@ const [isHovered, setIsHovered] = useState(false);
     const showMessageBox = (message) => {
         setMessageBoxMessage(message);
     };
+ // Save compareList to localStorage whenever it changes
+useEffect(() => {
+    localStorage.setItem("compareList", JSON.stringify(compareList));
+}, [compareList]);
+
+// Save campaignList to localStorage whenever it changes
+useEffect(() => {
+    localStorage.setItem("campaignList", JSON.stringify(campaignList));
+}, [campaignList]);
+useEffect(() => {
+    localStorage.setItem("showCompareBar", JSON.stringify(showCompareBar));
+}, [showCompareBar]);
 
     useEffect(() => {
         if (!id) {
@@ -126,6 +152,14 @@ const toggleCompare = (billboard) => {
         setCompareList([...compareList, billboard]);
         setShowCompareBar(true);
     }
+};
+const toggleCampaign = (billboard) => {
+  const alreadyInList = campaignList.find(item => item._id === billboard._id);
+  if (alreadyInList) {
+    setCampaignList(campaignList.filter(item => item._id !== billboard._id));
+  } else {
+    setCampaignList([...campaignList, billboard]);
+  }
 };
 
 // Clear Compare list
@@ -287,7 +321,7 @@ const clearCompare = () => {
 </Row>
 
 
-                <Row>
+                <Row className="main-content-row">
                     <Col md={8} lg={9} className="mb-4 left-scrollable-column">
                         <div className="main-image-display content-section">
                             {billboard.image ? (
@@ -463,31 +497,63 @@ const clearCompare = () => {
     </p>
 
     <button
-        onClick={() => toggleCompare(billboard)}
-        style={{
-            background: 'none',
-            border: 'none',
-            color: compareList.find(item => item._id === billboard._id) ? 'green' : 'black',
-            cursor: 'pointer',
-            fontWeight: 'bold',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-            padding: 0,
-            margin: 0
-        }}
-        className="action-item"
-    >
-        {compareList.find(item => item._id === billboard._id) ? (
-            <>
-                <FaExchangeAlt /> Added to Compare
-            </>
-        ) : (
-            <>
-                <FaExchangeAlt /> Add to Compare
-            </>
-        )}
-    </button>
+    onClick={() => toggleCompare(billboard)}
+    onMouseEnter={() => setHoverCompare(true)}
+    onMouseLeave={() => setHoverCompare(false)}
+    style={{
+        background: 'none',
+        border: 'none',
+        color: compareList.find(item => item._id === billboard._id)
+            ? 'green'
+            : hoverCompare
+            ? '#ffc107'
+            : 'black',
+        cursor: 'pointer',
+        marginBottom: "10px",
+        fontWeight: 'bold',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '5px',
+        padding: 0,
+        margin: 0
+    }}
+>
+    {compareList.find(item => item._id === billboard._id) ? (
+        <><FaExchangeAlt /> Added to Compare</>
+    ) : (
+        <><FaExchangeAlt /> Add to Compare</>
+    )}
+</button>
+
+   <button
+    onClick={() => toggleCampaign(billboard)}
+    onMouseEnter={() => setHoverCampaign(true)}
+    onMouseLeave={() => setHoverCampaign(false)}
+    style={{
+        background: 'transparent',
+        border: 'none',
+        color: campaignList.find(item => item._id === billboard._id)
+            ? 'green'
+            : hoverCampaign
+            ? '#ffc107'
+            : 'black',
+        cursor: 'pointer',
+        fontWeight: 'bold',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '5px',
+        padding: '0',
+        margin: 0
+    }}
+>
+    {campaignList.find(item => item._id === billboard._id) ? (
+        <><FaExchangeAlt /> Added to Campaign</>
+    ) : (
+        <><FaExchangeAlt /> Add to Campaign</>
+    )}
+</button>
+
+
 </div>
 
                         </div>
@@ -605,6 +671,50 @@ const clearCompare = () => {
             Clear
         </button>
     </div>
+)}
+
+{campaignList.length > 0 && (
+  <div style={{
+    position: 'fixed',
+    bottom: compareList.length > 0 ? '60px' : '0px',
+    left: 0,
+    right: 0,
+    borderTop: '8px solid #ffc107',
+    backgroundColor: 'white',
+    padding: '10px 20px',
+    display: 'flex',
+    alignItems: 'center',
+    zIndex: 9999,
+    gap: '10px',
+    boxShadow: '0 -2px 5px rgba(0,0,0,0.2)',
+    color: 'black'
+  }}>
+      <strong>Campaign ({campaignList.length})</strong>
+
+      {/* Directly show campaign items */}
+      <div style={{ display: 'flex', gap: '10px', overflowX: 'auto', marginLeft: '20px' }}>
+          {campaignList.map(item => (
+              <span key={item._id} style={{ padding: '3px 8px', background: '#28a74533', borderRadius: '5px', fontSize: '0.85rem' }}>
+                  {item.title || 'No Title'}
+              </span>
+          ))}
+      </div>
+
+      {/* Clear button */}
+      <button
+          onClick={() => setCampaignList([])}
+          style={{
+              background: 'transparent',
+              border: 'none',
+              padding: '5px 10px',
+              borderRadius: '4px',
+              color: 'black',
+              cursor: 'pointer',
+          }}
+      >
+          Clear
+      </button>
+  </div>
 )}
 
 
