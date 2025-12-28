@@ -119,7 +119,7 @@ function CreateUser() {
 
     const [availableCities, setAvailableCities] = useState([]);
     // Is line ko function CreateUser ke andar add karein
-const currentCityCoords = cityCoords[formData.city] || [31.5204, 74.3587];
+
    const cityCoords = {
     'Lahore': [31.5204, 74.3587],
     'Karachi': [24.8607, 67.0011],
@@ -131,6 +131,7 @@ const currentCityCoords = cityCoords[formData.city] || [31.5204, 74.3587];
     'Quetta': [30.1798, 66.9750],
     // Baaki cities ke coords bhi isi tarah add kar sakte hain
 };
+const currentCityCoords = cityCoords[formData.city] || [31.5204, 74.3587];
      // --- START: Size and SQFT Calculation Logic ---
     // Effect to calculate total SQFT whenever selected sizes or custom dimensions change
     useEffect(() => {
@@ -619,17 +620,23 @@ const currentCityCoords = cityCoords[formData.city] || [31.5204, 74.3587];
                                     {/* Map update logic */}
                                     <MapViewUpdater center={currentCityCoords} />
                                     
-                                    <LocationPickerMarker 
-                                        position={formData.latitude && formData.longitude ? [formData.latitude, formData.longitude] : null}
-                                        setPosition={(pos) => {
-                                            setFormData(prev => ({ ...prev, latitude: pos[0], longitude: pos[1] }));
-                                        }}
-                                    />
+                                  <LocationPickerMarker 
+    position={
+        formData.latitude && formData.longitude 
+        ? [Number(formData.latitude), Number(formData.longitude)] 
+        : null
+    }
+    setPosition={(pos) => {
+        setFormData(prev => ({ ...prev, latitude: pos[0], longitude: pos[1] }));
+    }}
+/>
+
                                 </MapContainer>
                             </div>
                             <div className="d-flex gap-3 mt-2">
-                                <small className="text-muted">Latitude: <strong>{formData.latitude}</strong></small>
-                                <small className="text-muted">Longitude: <strong>{formData.longitude}</strong></small>
+                                <small>Latitude: <strong>{Number(formData.latitude)}</strong></small>
+<small>Longitude: <strong>{Number(formData.longitude)}</strong></small>
+
                             </div>
                         </div>
                     </div>

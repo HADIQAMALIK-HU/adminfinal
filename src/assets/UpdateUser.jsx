@@ -721,25 +721,26 @@ const currentCityCoords = cityCoords[formData.city] || [31.5204, 74.3587];
         <MapViewUpdater center={currentCityCoords} />
 
         <LocationPickerMarker
-          position={
-            formData.latitude && formData.longitude
-              ? [formData.latitude, formData.longitude]
-              : null
-          }
-          setPosition={(pos) => {
-            setFormData(prev => ({
-              ...prev,
-              latitude: pos[0],
-              longitude: pos[1],
-            }));
-          }}
-        />
+  position={
+    formData.latitude && formData.longitude
+      ? [Number(formData.latitude), Number(formData.longitude)]
+      : null
+  }
+  setPosition={(pos) => {
+    setFormData(prev => ({
+      ...prev,
+      latitude: pos[0],
+      longitude: pos[1],
+    }));
+  }}
+/>
       </MapContainer>
     </div>
 
     <div className="d-flex gap-3 mt-2">
-      <small>Latitude: <strong>{formData.latitude}</strong></small>
-      <small>Longitude: <strong>{formData.longitude}</strong></small>
+      <small>Latitude: <strong>{Number(formData.latitude)}</strong></small>
+     <small>Longitude: <strong>{Number(formData.longitude)}</strong></small>
+
     </div>
   </div>
 </div>
