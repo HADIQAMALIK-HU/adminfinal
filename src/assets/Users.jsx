@@ -29,21 +29,28 @@ const calculateSqftForDisplay = (size, customLength, customWidth, storedSqft) =>
     }
     return 'N/A';
 };
-
 function Users() {
+    const [searchParams] = useSearchParams(); 
     const [users, setUsers] = useState([]);
+const handleShowCompare = () => {
+    localStorage.setItem("compareList", JSON.stringify(compareList));
+    setShowCompareOnly(true);
+    setShowCampaignOnly(false);
+};
+const handleShowCampaign = () => {
+    localStorage.setItem("campaignList", JSON.stringify(campaignList));
+    setShowCampaignOnly(true);
+    setShowCompareOnly(false);
+};
     const [compareList, setCompareList] = useState([]);
 const [showCompareOnly, setShowCompareOnly] = useState(false);
-// Show either all users or only the compare list
-const displayedUsers = showCompareOnly ? compareList : users;
-
-    const [searchParams] = useSearchParams(); // 👈 'useSearchParams' initialized here
+const [showCampaignOnly, setShowCampaignOnly] = useState(false);
+const [campaignList, setCampaignList] = useState([]);
     const [availableCities, setAvailableCities] = useState([]);
     const [customField, setCustomField] = useState('');
     const [customValue, setCustomValue] = useState('');
     const [viewMode, setViewMode] = useState('grid');
     const [filters, setFilters] = useState({
-
         displayId: '',
         keyword: '',
         province: [],
@@ -70,7 +77,6 @@ const displayedUsers = showCompareOnly ? compareList : users;
         maxReach: '',
         customFilters: [],
     });
-    
     const [sortOption, setSortOption] = useState('');
     const [currentSortLabel, setCurrentSortLabel] = useState('Sort By');
     const [loading, setLoading] = useState(false);
@@ -163,7 +169,29 @@ const displayedUsers = showCompareOnly ? compareList : users;
 
         return params;
     };
+    const displayedUsers = showCompareOnly 
+    ? compareList 
+    : showCampaignOnly 
+        ? campaignList 
+        : users;
+useEffect(() => {
+    const showCompare = searchParams.get("showCompare") === "true";
+    const showCampaign = searchParams.get("showCampaign") === "true";
 
+    if (showCompare) {
+        const list = JSON.parse(localStorage.getItem("compareList")) || [];
+        setCompareList(list);
+        setTotalItems(list.length);
+        setShowCompareOnly(true);
+        setShowCampaignOnly(false);
+    } else if (showCampaign) {
+        const list = JSON.parse(localStorage.getItem("campaignList")) || [];
+        setCampaignList(list);
+        setTotalItems(list.length);
+        setShowCampaignOnly(true);
+        setShowCompareOnly(false);
+    }
+}, [searchParams]);
     const fetchBillboards = useCallback(async () => {
         setLoading(true);
         setError(null);
@@ -357,16 +385,14 @@ const displayedUsers = showCompareOnly ? compareList : users;
         }
         setBillboardToUpdate(null);
     };
-const toggleCompare = (user) => {  // yahan 'billboard' ki jagah 'user'
+const toggleCompare = (user) => {
     const exists = compareList.find(item => item._id === user._id);
     if (exists) {
         setCompareList(compareList.filter(item => item._id !== user._id));
-    } else if (compareList.length < 3) { // max 3 items
-        setCompareList([...compareList, user]);
+    } else {
+        setCompareList([...compareList, user]); // No limit now
     }
 };
-
-
     const triggerExcelDownloadModal = () => {
         setDownloadFileType('excel');
         setShowDownloadModal(true);
@@ -382,8 +408,23 @@ const toggleCompare = (user) => {  // yahan 'billboard' ki jagah 'user'
         setLoading(true);
         setError(null);
         try {
-            const queryParams = buildQueryParams(filters, sortOption, 1, totalItems);
-            queryParams.fileName = fileName;
+            let queryParams = { fileName };
+
+if (showCompareOnly) {
+    // ✅ ONLY compare billboards
+    queryParams.ids = compareList.map(item => item._id).join(',');
+}
+else if (showCampaignOnly) {
+    // ✅ ONLY campaign billboards
+    queryParams.ids = campaignList.map(item => item._id).join(',');
+}
+else {
+    // ✅ NORMAL behaviour (filters)
+    queryParams = {
+        ...buildQueryParams(filters, sortOption, 1, totalItems),
+        fileName
+    };
+}
             console.log(`[Users.jsx] Initiating download of ${fileType} with filename: "${fileName}"`);
             console.log(`[Users.jsx] Query params for download:`, queryParams);
             const response = await axios.get(`https://backend-s2hb.vercel.app/download-${fileType}`, {
@@ -491,7 +532,7 @@ const toggleCompare = (user) => {  // yahan 'billboard' ki jagah 'user'
                     currentPage={currentPage}
                     totalPages={totalPages}
                     setCurrentPage={setCurrentPage}
-                    totalItems={totalItems}
+                    totalItems={showCompareOnly || showCampaignOnly ? displayedUsers.length : totalItems}
                     error={error}
                     setError={setError}
                     viewMode={viewMode}
@@ -617,21 +658,50 @@ const toggleCompare = (user) => {  // yahan 'billboard' ki jagah 'user'
                                             <div className="d-flex justify-content-between align-items-center mt-3">
                                                 <small className="text-muted">{timeAgo(user.createdAt)}</small>
                                                 <div className="d-flex gap-2">
-  <Button
-    onClick={() => toggleCompare(user)}
-    style={{
-        backgroundColor: compareList.find(item => item._id === user._id) ? "#ffc107" : "transparent",
-        border: compareList.find(item => item._id === user._id) ? "1px solid #ffc107" : "none",
-        color: compareList.find(item => item._id === user._id) ? "white" : "black",
-        padding: "2px 15px",
-        cursor: "pointer",
-        transition: "all 0.3s ease",
-    }}
+ <Button
+  onClick={() => toggleCompare(user)}
+  style={{
+    backgroundColor: compareList.some(item => item._id === user._id) ? "#ffc107" : "transparent",
+    border: compareList.some(item => item._id === user._id) ? "1px solid #ffc107" : "none",
+    color: compareList.some(item => item._id === user._id) ? "white" : "black",
+  }}
 >
-    {compareList.find(item => item._id === user._id) ? "Added" : "Compare"}
+  {compareList.some(item => item._id === user._id) ? "Added" : "Compare"}
 </Button>
+{campaignList.length > 0 && (
+    <div style={{
+        position: "fixed",
+        bottom: showCompareOnly ? "60px" : "0px",
+        left: 0,
+        right: 0,
+        borderTop: "8px solid #ffc107",
+        backgroundColor: "white",
+        padding: "10px 20px",
+        display: "flex",
+        alignItems: "center",
+        zIndex: 9999,
+        gap: "10px",
+        boxShadow: "0 -2px 5px rgba(0,0,0,0.2)",
+        color: "black",
+    }}>
+        <strong>Campaign ({campaignList.length})</strong>
 
+        <button
+            onClick={handleShowCampaign}
+            disabled={campaignList.length === 0}
+            style={{ background: "transparent", border: "none", padding: "5px 10px", cursor: "pointer" }}
+        >
+            Show
+        </button>
 
+        <button
+            onClick={() => { setCampaignList([]); setShowCampaignOnly(false); }}
+            style={{ background: "transparent", border: "none", padding: "5px 10px", cursor: "pointer" }}
+        >
+            Clear
+        </button>
+    </div>
+)}
                                                     <Button onClick={() => handleUpdate(user._id)} variant="primary" size="sm" className="d-flex align-items-center">
                                                         Update
                                                     </Button>
@@ -686,7 +756,7 @@ const toggleCompare = (user) => {  // yahan 'billboard' ki jagah 'user'
                 handleDownload={handleActualDownload}
                 fileType={downloadFileType}
             />
-            {compareList.length > 0 && (
+           {(compareList.length > 0 || showCompareOnly) && (
     <div style={{
         position: "fixed",
         bottom: 0,
@@ -707,23 +777,15 @@ const toggleCompare = (user) => {  // yahan 'billboard' ki jagah 'user'
             <strong>Compare ({compareList.length})</strong>
         </div>
 
-        <button
-            onClick={() => setShowCompareOnly(true)}
-            disabled={compareList.length === 0}
-            style={{
-                background: "transparent",
-                border: "none",
-                padding: "5px 10px",
-                borderRadius: "4px",
-                color: "black",
-                cursor: compareList.length === 0 ? "not-allowed" : "pointer",
-            }}
-            onMouseOver={(e) => { if(compareList.length !== 0) e.target.style.backgroundColor = "#ffc107"; }}
-            onMouseOut={(e) => { e.target.style.backgroundColor = "transparent"; }}
-        >
-            Show
-        </button>
-
+       <button
+  onClick={() => {
+    localStorage.setItem("compareList", JSON.stringify(compareList));
+    setShowCompareOnly(true);
+    setShowCampaignOnly(false);
+  }}
+>
+  Show
+</button>
         <button
             onClick={() => { setCompareList([]); setShowCompareOnly(false); }}
             style={{

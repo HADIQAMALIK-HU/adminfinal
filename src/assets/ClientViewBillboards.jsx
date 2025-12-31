@@ -11,7 +11,16 @@ import { FaHeart, FaStar, FaMapMarkerAlt } from 'react-icons/fa';
 function ClientViewBillboards() {
     // State for managing billboard data
     const [billboards, setBillboards] = useState([]); // Renamed 'users' to 'billboards' for clarity
-    
+    // ======================
+// Compare & Campaign (PERSISTENT)
+// ======================
+const [compareList, setCompareList] = useState(() =>
+  JSON.parse(localStorage.getItem("compareList")) || []
+);
+
+const [campaignList, setCampaignList] = useState(() =>
+  JSON.parse(localStorage.getItem("campaignList")) || []
+);
     // State for filters (simplified for client view, no direct user input in this component)
     // These filters will likely be passed from URL parameters if dynamic filtering is needed on client side
     const [filters, setFilters] = useState({
@@ -138,6 +147,13 @@ function ClientViewBillboards() {
         setCurrentSortLabel(selectedLabel); // Update the button text
         setCurrentPage(1); // Reset to first page on sort change
     };
+    useEffect(() => {
+  localStorage.setItem("compareList", JSON.stringify(compareList));
+}, [compareList]);
+
+useEffect(() => {
+  localStorage.setItem("campaignList", JSON.stringify(campaignList));
+}, [campaignList]);
 
     // Helper function to calculate "time ago"
     const timeAgo = (dateString) => {
@@ -267,6 +283,7 @@ function ClientViewBillboards() {
                                             <span className="position-absolute bottom-0 end-0 p-2">
                                                 <FaHeart color="white" size="1.5em" />
                                             </span>
+
                                         </div>
 
                                         <div className="card-body d-flex flex-column justify-content-between p-3">

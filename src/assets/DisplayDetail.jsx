@@ -4,6 +4,7 @@ import { useParams, Link, NavLink } from "react-router-dom";
 import { Container, Row, Col, ListGroup, Spinner, Form, Button } from "react-bootstrap";
 import { FaMapMarkerAlt, FaFacebookF, FaTwitter, FaPinterestP, FaLinkedinIn, FaHeart, FaExchangeAlt } from 'react-icons/fa';
 import { FaUpRightFromSquare } from "react-icons/fa6";
+import { useNavigate } from 'react-router-dom';
 import './DisplayDetail.css'
 
 
@@ -14,17 +15,28 @@ function DisplayDetail() {
 const [campaignList, setCampaignList] = useState(() => {
     return JSON.parse(localStorage.getItem("campaignList")) || [];
 });
-
 const [showCompareBar, setShowCompareBar] = useState(() => {
     const savedList = JSON.parse(localStorage.getItem("compareList")) || [];
     const savedShow = JSON.parse(localStorage.getItem("showCompareBar"));
     return savedShow !== null ? savedShow : savedList.length > 0;
 });
-
+const [showCampaignItems, setShowCampaignItems] = useState(false);
 
 const [isHovered, setIsHovered] = useState(false);
 const [hoverCompare, setHoverCompare] = useState(false);
 const [hoverCampaign, setHoverCampaign] = useState(false);
+    const navigate = useNavigate();
+    // Compare Show button
+const handleShowCompare = () => {
+    localStorage.setItem("compareList", JSON.stringify(compareList));
+    navigate("/users?showCompare=true");
+};
+
+// Campaign Show button
+const handleShowCampaign = () => {
+    localStorage.setItem("campaignList", JSON.stringify(campaignList));
+    navigate("/users?showCampaign=true");
+};
 
     const { id } = useParams();
     const [billboard, setBillboard] = useState(null);
@@ -637,22 +649,25 @@ const clearCompare = () => {
         </div>
 
         {/* SHOW button */}
-        <button
-            onClick={() => setShowCompareBar(true)}
-            disabled={compareList.length === 0}
-            style={{
-                background: 'transparent',
-                border: 'none',
-                padding: '5px 10px',
-                borderRadius: '4px',
-                color: 'black',
-                cursor: compareList.length === 0 ? 'not-allowed' : 'pointer',
-            }}
-            onMouseOver={e => { if(compareList.length !== 0) e.target.style.backgroundColor = '#ffc107'; }}
-            onMouseOut={e => e.target.style.backgroundColor = 'transparent'}
-        >
-            Show
-        </button>
+<button
+  onClick={handleShowCompare}
+  disabled={compareList.length === 0}
+  style={{
+    background: 'transparent',
+    border: 'none',
+    padding: '5px 10px',
+    borderRadius: '4px',
+    color: 'black',
+    cursor: compareList.length === 0 ? 'not-allowed' : 'pointer',
+  }}
+  onMouseOver={e => {
+    if (compareList.length !== 0)
+      e.target.style.backgroundColor = '#ffc107';
+  }}
+  onMouseOut={e => e.target.style.backgroundColor = 'transparent'}
+>
+  Show
+</button>
 
         {/* CLEAR button */}
         <button
@@ -672,7 +687,6 @@ const clearCompare = () => {
         </button>
     </div>
 )}
-
 {campaignList.length > 0 && (
   <div style={{
     position: 'fixed',
@@ -689,17 +703,41 @@ const clearCompare = () => {
     boxShadow: '0 -2px 5px rgba(0,0,0,0.2)',
     color: 'black'
   }}>
-      <strong>Campaign ({campaignList.length})</strong>
-
+      <div style={{ marginLeft: '50px' }}>
+            <strong>Campaign ({campaignList.length})</strong>
+        </div>
+     <button
+    onClick={handleShowCampaign} // Purana: () => setShowCampaignItems(prev => !prev)
+    disabled={campaignList.length === 0}
+    style={{
+        background: 'transparent',
+        border: 'none',
+        padding: '5px 10px',
+        borderRadius: '4px',
+        color: 'black',
+        cursor: campaignList.length === 0 ? 'not-allowed' : 'pointer',
+    }}
+>
+    Show
+</button>
       {/* Directly show campaign items */}
-      <div style={{ display: 'flex', gap: '10px', overflowX: 'auto', marginLeft: '20px' }}>
-          {campaignList.map(item => (
-              <span key={item._id} style={{ padding: '3px 8px', background: '#28a74533', borderRadius: '5px', fontSize: '0.85rem' }}>
-                  {item.title || 'No Title'}
-              </span>
-          ))}
-      </div>
-
+     {showCampaignItems && (
+    <div style={{ display: 'flex', gap: '10px', overflowX: 'auto', marginLeft: '20px' }}>
+        {campaignList.map(item => (
+            <span
+                key={item._id}
+                style={{
+                    padding: '3px 8px',
+                    background: '#28a74533',
+                    borderRadius: '5px',
+                    fontSize: '0.85rem'
+                }}
+            >
+                {item.title || 'No Title'}
+            </span>
+        ))}
+    </div>
+)}
       {/* Clear button */}
       <button
           onClick={() => setCampaignList([])}
@@ -716,10 +754,7 @@ const clearCompare = () => {
       </button>
   </div>
 )}
-
-
         </>
     );
 }
-
 export default DisplayDetail;
