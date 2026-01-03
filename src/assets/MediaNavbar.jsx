@@ -32,6 +32,11 @@ const MediaNavbar = () => {
                         Add Billboard +
                     </Link>
                 </div>
+                <div className="add-billboard-button-wrapper">
+                    <Link to="/admincareer" className="add-billboard-button navbuttonadd">
+                        Admin Career +
+                    </Link>
+                </div>
             </Nav>
         </Navbar.Collapse>
     </Container>

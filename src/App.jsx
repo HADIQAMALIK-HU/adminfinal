@@ -17,6 +17,7 @@ import MediaFooter from './assets/MediaFooter';
 // --- NEW IMPORT: Client-Side Billboard Listing Component ---
 // This assumes ClientViewBillboards.jsx is also in the 'assets' folder
 import ClientViewBillboards from './assets/ClientViewBillboards';
+import AdminCareer from './assets/AdminCareer';
 // --- END NEW IMPORT ---
 
 function App() {
@@ -34,7 +35,8 @@ function App() {
            <Route path='/users' element={<Users />} />
           <Route path='/create' element={<CreateUser />} />
           <Route path='/update/:id' element={<UpdateUser />} />
-          <Route path='/display/:id' element={<DisplayDetail />} /> {/* Admin detail page */}
+          <Route path='/display/:id' element={<DisplayDetail />} />
+          <Route path='/admincareer' element={<AdminCareer/>} />
 
           {/* --- CLIENT-SIDE PUBLIC ROUTES --- */}
           {/* New route for the client-facing billboard list */}
