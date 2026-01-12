@@ -621,7 +621,7 @@ else {
                                             <div>
                                                 <h5 className="card-title card-title-custom" style={{ color: '#000', lineHeight: '1.2' }}>
                                                     <span style={{ fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase' }}>
-                                                        BILLBOARD AT{' '}
+                                                        {' '}
                                                     </span>
                                                     <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
                                                         {user.title || 'N/A'}
@@ -646,7 +646,10 @@ else {
                                                 </p>
                                                 <p className="card-text card-text-detail" style={{ fontSize: '0.9rem', color: '#555', marginBottom: '5px' }}>
                                                     <span className="fw-bold text-dark">Display Type:</span> {user.displayType || 'N/A'}
-                                                    <span className="fw-bold text-dark ms-3">Size:</span> {user.size || 'N/A'}
+                                                    <span className="fw-bold text-dark ms-3">Size:</span>{" "}
+{user.size === "Custom" && user.customLength && user.customWidth
+  ? `${user.customLength}x${user.customWidth}`
+  : user.size || "N/A"}
                                                     <span className="fw-bold text-dark ms-3">SQFT:</span> {calculateSqftForDisplay(user.size, user.customLength, user.customWidth, user.sqft)}
                                                 </p>
                                                 <p className="card-text card-text-detail" style={{ fontSize: '0.9rem', color: '#555', marginBottom: '5px' }}>

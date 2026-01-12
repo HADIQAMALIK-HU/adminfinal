@@ -114,7 +114,7 @@ function CreateUser() {
         { value: '40x20', label: '40x20' },
         { value: '20x50', label: '20x50' },
         { value: '30x15', label: '30x15' },
-        { value: 'Custom', label: 'Custom' }
+        { value: 'Custom', label: 'Custom (Enter your own size)' },
     ];
 
     const [availableCities, setAvailableCities] = useState([]);
@@ -440,7 +440,39 @@ const currentCityCoords = cityCoords[formData.city] || [31.5204, 74.3587];
                     <div className="row form-section-row">
                         <div className="col-12 col-md-4 form-group-col">
                             <label className="form-label">Location</label>
-                            <input name="location" type="text" className='form-control' value={formData.location} onChange={handleChange} />
+                            <input
+  type="text"
+  className="form-control"
+  placeholder="Search & pin location "
+  value={formData.location}
+  onChange={async (e) => {
+    const query = e.target.value;
+    setFormData(prev => ({ ...prev, location: query }));
+
+    if (query.length > 3) {
+      try {
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${query}`
+        );
+        const data = await res.json();
+
+        if (data && data.length > 0) {
+          const lat = parseFloat(data[0].lat);
+          const lng = parseFloat(data[0].lon);
+
+          setFormData(prev => ({
+            ...prev,
+            latitude: lat,
+            longitude: lng,
+          }));
+        }
+      } catch (err) {
+        console.error("Location search error", err);
+      }
+    }
+  }}
+/>
+
                         </div>
                         <div className="col-12 col-md-4 form-group-col">
                             <label className="form-label">Display Type</label>
@@ -495,17 +527,7 @@ const currentCityCoords = cityCoords[formData.city] || [31.5204, 74.3587];
                         {/* Conditionally render custom length and width inputs if 'Custom' size is selected */}
                         {formData.size.includes('Custom') && (
                             <>
-                                <div className="col-12 col-md-2 form-group-col">
-                                    <label className="form-label">Custom Length</label>
-                                    <input
-                                        name="customLength"
-                                        type="number"
-                                        className='form-control'
-                                        value={formData.customLength}
-                                        onChange={handleChange}
-                                        placeholder="Length"
-                                    />
-                                </div>
+                               
                                 <div className="col-12 col-md-2 form-group-col">
                                     <label className="form-label">Custom Width</label>
                                     <input
@@ -515,6 +537,17 @@ const currentCityCoords = cityCoords[formData.city] || [31.5204, 74.3587];
                                         value={formData.customWidth}
                                         onChange={handleChange}
                                         placeholder="Width"
+                                    />
+                                </div>
+                                 <div className="col-12 col-md-2 form-group-col">
+                                    <label className="form-label">Custom Height</label>
+                                    <input
+                                        name="customLength"
+                                        type="number"
+                                        className='form-control'
+                                        value={formData.customLength}
+                                        onChange={handleChange}
+                                        placeholder="Height"
                                     />
                                 </div>
                             </>
