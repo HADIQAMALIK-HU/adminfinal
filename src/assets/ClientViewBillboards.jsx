@@ -184,6 +184,19 @@ useEffect(() => {
         }
         return Math.floor(seconds) + ' seconds ago';
     };
+  // Helper function to format date as DD-MM-YYYY
+const formatDateDMY = (dateValue) => {
+  if (!dateValue) return 'N/A';
+
+  const date = new Date(dateValue);
+  if (isNaN(date.getTime())) return 'N/A';
+
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+
+  return `${day}-${month}-${year}`;
+};
 
     return (
         <div className="d-flex vh-100 flex-column"> {/* Changed to flex-column for better layout without sidebar */}
@@ -323,7 +336,10 @@ useEffect(() => {
 
                                             <div style={{ borderTop: '1px solid #eee', margin: '1rem -1rem 0', padding: '1rem 1rem 0' }}>
                                                 <div className="d-flex justify-content-between align-items-center mt-2">
-                                                    <small className="text-muted">{timeAgo(billboard.createdAt)}</small>
+                                                    <small className="text-muted">
+  {formatDateDMY(billboard.createdAt)}
+</small>
+
                                                     {/* REMOVED: Update and Delete buttons for client view */}
                                                 </div>
                                             </div>

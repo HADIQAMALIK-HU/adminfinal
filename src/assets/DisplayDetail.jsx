@@ -54,6 +54,18 @@ const handleShowCampaign = () => {
     const showMessageBox = (message) => {
         setMessageBoxMessage(message);
     };
+     const formatDateDMY = (dateValue) => {
+    if (!dateValue) return 'N/A';
+
+    const date = new Date(dateValue);
+    if (isNaN(date.getTime())) return 'N/A';
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  };
  // Save compareList to localStorage whenever it changes
 useEffect(() => {
     localStorage.setItem("compareList", JSON.stringify(compareList));
@@ -318,7 +330,7 @@ const clearCompare = () => {
 </span>
 <span className="breadcrumb-arrow">›</span>
     <span className="breadcrumb-current">
-      Billboard at {billboard?.location || billboard?.area || billboard?.city || 'Unknown Location'}
+       {billboard?.location || billboard?.area || billboard?.city || 'Unknown Location'}
     </span>
   </Col>
 
@@ -352,12 +364,14 @@ const clearCompare = () => {
                             <div className="info-item">
                                 <strong>ID:</strong> {billboard.displayId || billboard._id}
                             </div>
-                            <div className="info-item">
-                                <strong>Published:</strong> {billboard.availability ? new Date(billboard.availability).toLocaleDateString() : 'N/A'}
-                            </div>
-                            <div className="info-item">
-                                <strong>LastUpdate:</strong> {billboard.updatedAt ? new Date(billboard.updatedAt).toLocaleDateString() : 'N/A'}
-                            </div>
+                           <div className="info-item">
+  <strong>Published:</strong> {formatDateDMY(billboard.availability)}
+</div>
+
+<div className="info-item">
+  <strong>LastUpdate:</strong> {formatDateDMY(billboard.updatedAt)}
+</div>
+
                             <div className="info-item">
                                 <strong>Views:</strong> {typeof billboard.views === 'number' ? billboard.views.toLocaleString() : 'N/A'}
                             </div>
