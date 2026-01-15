@@ -63,9 +63,8 @@ function CreateUser() {
         ownerName: '',
     });
     const navigate = useNavigate();
+    const [loadingId, setLoadingId] = useState(true);
     const [generalErrorMessage, setGeneralErrorMessage] = useState('');
-    const [displayIdError, setDisplayIdError] = useState(''); 
-    const [isCheckingDisplayId, setIsCheckingDisplayId] = useState(false); 
     const citiesByProvince = {
         Punjab: ['Lahore', 'Rawalpindi', 'Faisalabad', 'Pattoki', 'Multan', 'Gujranwala', 'Sialkot'],
         Sindh: ['Karachi', 'Hyderabad', 'Sukkur', 'Larkana'],
@@ -163,38 +162,21 @@ const currentCityCoords = cityCoords[formData.city] || [31.5204, 74.3587];
     }, [formData.size, formData.customLength, formData.customWidth]); // Dependencies for recalculation
     // --- END: Size and SQFT Calculation Logic ---
 
-    useEffect(() => {
-        const delayDebounceFn = setTimeout(async () => {
-            const currentDisplayId = formData.displayId.trim();
-            if (currentDisplayId) {
-                if (isNaN(Number(currentDisplayId))) {
-                    setDisplayIdError('Display ID must be a number.');
-                    setIsCheckingDisplayId(false);
-                    return;
-                }
-
-                setIsCheckingDisplayId(true);
-                try {
-                    const response = await axios.get(`https://backend-s2hb.vercel.app/filter?displayId=${currentDisplayId}`);
-                    if (response.data.totalCount > 0) {
-                        setDisplayIdError('This Display ID already exists. Please use a different one.');
-                    } else {
-                        setDisplayIdError(''); 
-                    }
-                } catch (err) {
-                    console.error('Error checking Display ID uniqueness:', err);
-                    setDisplayIdError('Failed to check ID. Please try again.');
-                } finally {
-                    setIsCheckingDisplayId(false);
-                }
-            } else {
-                setDisplayIdError('');
-            }
-        }, 500); 
-
-        return () => clearTimeout(delayDebounceFn); 
-    }, [formData.displayId]); 
-
+    
+   useEffect(() => {
+    // Fetch next ID from backend
+    const fetchNextId = async () => {
+        try {
+            const res = await axios.get('https://backend-s2hb.vercel.app/api/billboards/next-id');
+            setFormData(prev => ({ ...prev, displayId: res.data.nextId }));
+        } catch (err) {
+            console.error('Error fetching next Display ID:', err);
+        } finally {
+            setLoadingId(false);
+        }
+    };
+    fetchNextId();
+}, []);
     const handleProvinceChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -285,56 +267,24 @@ const currentCityCoords = cityCoords[formData.city] || [31.5204, 74.3587];
             image: e.target.files[0] 
         }));
     };
-    const showMessageBox = (message) => {
-        setGeneralErrorMessage(message);
-        const messageBox = document.createElement('div');
-        messageBox.className = 'custom-message-box';
-        messageBox.innerHTML = `
-            <div class="custom-message-content">
-                <p>${message}</p>
-                <button class="custom-message-button">OK</button>
-            </div>
-        `;
-        document.body.appendChild(messageBox);
-        messageBox.querySelector('.custom-message-button').onclick = () => {
-            document.body.removeChild(messageBox);
-            setGeneralErrorMessage(''); 
-        };
-    };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setGeneralErrorMessage(''); 
-        if (displayIdError) {
-            setGeneralErrorMessage('Please fix the Display ID error before submitting.');
-            return;
-        }
-        if (isCheckingDisplayId) {
-            setGeneralErrorMessage('Please wait, checking Display ID uniqueness...');
-            return;
-        }
-        if (formData.displayId.trim() !== '' && isNaN(Number(formData.displayId))) {
-            setGeneralErrorMessage('Display ID must be a valid number.');
-            return;
-        }
+        
 
         const data = new FormData();
-        for (const key in formData) {
-            if (key === 'image') {
-                if (formData.image) {
-                    data.append('image', formData.image);
-                }
-                continue;
-            }
-            if (key === 'displayId' && formData[key] === '') {
-                continue;
-            }
-            if (key === 'environment' && Array.isArray(formData[key])) {
-                data.append(key, JSON.stringify(formData[key]));
-            } else if (formData[key] !== null && formData[key] !== undefined && formData[key] !== '') {
-                data.append(key, formData[key]);
-            }
-        }
+       for (const key in formData) {
+    if (key === 'displayId') continue; // skip ID
+    if (key === 'image' && formData.image) {
+        data.append('image', formData.image);
+    } else if (key === 'environment') {
+        data.append(key, JSON.stringify(formData.environment));
+    } else {
+        data.append(key, formData[key]); // include 0 or false
+    }
+}
     for (let pair of data.entries()) {
         console.log(pair[0]+ ': ' + pair[1]);
     }
@@ -391,19 +341,16 @@ const currentCityCoords = cityCoords[formData.city] || [31.5204, 74.3587];
                             <label className="form-label">Title</label>
                             <input name="title" type="text" className='form-control' value={formData.title} onChange={handleChange} required />
                         </div>
-                        <div className="col-12 col-md-4 form-group-col">
-                            <label className="form-label">Display ID (Optional)</label>
-                            <input
-                                name="displayId"
-                                type="text" // Keep as text to allow empty string, validate numeric in handleChange and useEffect
-                                className={`form-control ${displayIdError ? 'is-invalid' : ''}`} // Apply is-invalid class
-                                value={formData.displayId}
-                                onChange={handleChange}
-                                placeholder="Enter Unique ID"
-                            />
-                            {isCheckingDisplayId && <div className="text-muted small mt-1">Checking ID...</div>}
-                            {displayIdError && <div className="invalid-feedback">{displayIdError}</div>} {/* Display specific error */}
-                        </div>
+<div className="col-12 col-md-4 form-group-col">
+    <label className="form-label">Display ID</label>
+    <input
+        type="text"
+        className="form-control"
+        value={formData.displayId}
+        readOnly
+    />
+</div>
+
                         <div className="col-12 col-md-4 form-group-col">
                             <label className="form-label">Media Owner</label>
                             <input name="ownerName" type="text" className='form-control' value={formData.ownerName} onChange={handleChange} />
